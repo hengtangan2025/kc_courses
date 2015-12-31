@@ -2,11 +2,13 @@ module KcCourses
   module Api
     class CoursesController < KcCourses::ApplicationController
       def progress
-        user = current_user
+        # user = current_user
+        user = User.first
         course = KcCourses::Course.find(params[:id])
+        spent_seconds = course.spent_time_of_user(user)
         render :json => {
           :id => course.id.to_s,
-          :spent_time => course.spent_time_of_user(user),
+          :spent_time => KcCourses::TimeDiy.pretty_seconds(spent_seconds),
           :title => course.title,
           :current_ware => {
             :id => 
